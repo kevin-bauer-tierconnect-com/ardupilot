@@ -184,6 +184,9 @@ static AP_Notify notify;
 extern int dartHubLat;
 extern int dartHubLon;
 extern int dartHubAlt;
+//extern int dartHubTimestamp;
+//extern int dartHubFixType;
+//extern int dartHubHDOP;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1326,9 +1329,13 @@ static void update_GPS_DartHub(void){
     g_gps->latitude = dartHubLat;
     g_gps->longitude = dartHubLon;
     g_gps->altitude_cm = dartHubAlt;
+ 
+    // These two global variables still have to be asigned to some other variable
+    //dartHubHDOP;
+    //dartHubTimestamp;
+    //dartHubFixType;
 
 
-  
     // These variables still might need to be updated.
     
     //g_gps->hdop = 0;
@@ -1362,10 +1369,6 @@ static void update_GPS_DartHub(void){
     g_gps->_fix_count = 0;
     */
 }
-
-
-
-
 
 
 

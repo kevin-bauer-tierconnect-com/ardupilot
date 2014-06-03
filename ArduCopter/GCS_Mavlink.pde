@@ -17,6 +17,9 @@ static bool	gcs_out_of_time;
 int dartHubLat;
 int dartHubLon;
 int dartHubAlt;
+int dartHubTimestamp;
+int dartHubFixType;
+int dartHubHDOP;
 
 // check if a message will fit in the payload space available
 #define CHECK_PAYLOAD_SIZE(id) if (payload_space < MAVLINK_MSG_ID_ ## id ## _LEN) return false
@@ -1094,7 +1097,9 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
         dartHubLat = packet.lat;
         dartHubLon = packet.lon;
         dartHubAlt = packet.alt;
-
+        dartHubTimestamp = packet.time_usec;
+        dartHubFixType = packet.fix_type;
+        dartHubHDOP = packet.eph;
         break;
     }
 

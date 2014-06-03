@@ -42,28 +42,31 @@ fi
 $APT_GET update
 $APT_GET install $BASE_PKGS $SITL_PKGS $PX4_PKGS
 
-if [ ! -d ../PX4-Firmware ]; then
+
+if [ ! -d PX4Firmware ]; then
     git clone https://github.com/diydrones/PX4Firmware.git
 fi
 
-if [ ! -d ../PX4NuttX ]; then
+if [ ! -d PX4NuttX ]; then
     git clone https://github.com/diydrones/PX4NuttX.git
 fi
 
-if [ ! -d ~/gcc-arm-none-eabi-4_6-2012q2 ]; then
-    ARM_TARBALL=gcc-arm-none-eabi-4_6-2012q2-20120614.tar.bz2
+
+#https://launchpad.net/gcc-arm-embedded/4.6/4.6-2012-q4-update/+download/gcc-arm-none-eabi-4_6-2012q4-20121016.tar.bz2
+if [ ! -d ~/gcc-arm-none-eabi-4_6-2012q4 ]; then
+    ARM_TARBALL=gcc-arm-none-eabi-4_6-2012q4-20121016.tar.bz2
     (
         cd ~;
-        curl -OL "https://launchpad.net/gcc-arm-embedded/4.6/4.6-2012-q2-update/+download/$ARM_TARBALL";
+        curl -OL "https://launchpad.net/gcc-arm-embedded/4.6/4.6-2012-q4-update/+download/$ARM_TARBALL";
         tar xjf ${ARM_TARBALL};
         rm ${ARM_TARBALL};
     )
 fi
-exportline="export PATH=$HOME/gcc-arm-none-eabi-4_6-2012q2/bin:\$PATH";
+exportline="export PATH=$HOME/gcc-arm-none-eabi-4_6-2012q4/bin:\$PATH";
 if ! grep -Fxq "$exportline" ~/.profile ; then
-    if maybe_prompt_user "Add $HOME/gcc-arm-none-eabi-4_6-2012q2/bin to your PATH [Y/n]?" ; then
+    if maybe_prompt_user "Add $HOME/gcc-arm-none-eabi-4_6-2012q4/bin to your PATH [Y/n]?" ; then
         echo $exportline >> ~/.profile
     else
-        echo "Skipping adding $HOME/gcc-arm-none-eabi-4_6-2012q2/bin to PATH."
+        echo "Skipping adding $HOME/gcc-arm-none-eabi-4_6-2012q4/bin to PATH."
     fi
 fi
