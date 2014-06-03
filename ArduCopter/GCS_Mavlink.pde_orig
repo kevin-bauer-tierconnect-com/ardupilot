@@ -12,11 +12,6 @@ static bool mavlink_active;
 // true if we are out of time in our event timeslice
 static bool	gcs_out_of_time;
 
-// Added by kevin
-// Global storage
-int dartHubLat;
-int dartHubLon;
-int dartHubAlt;
 
 // check if a message will fit in the payload space available
 #define CHECK_PAYLOAD_SIZE(id) if (payload_space < MAVLINK_MSG_ID_ ## id ## _LEN) return false
@@ -1080,24 +1075,6 @@ void GCS_MAVLINK::handleMessage(mavlink_message_t* msg)
     memset(&tell_command, 0, sizeof(tell_command));
 
     switch (msg->msgid) {
-
-
-    // Added by kevin
-    // Process the DartHub coordinates received from the MAVProxy
-    case MAVLINK_MSG_ID_GPS_RAW_INT:     // MAV ID: 24
-    {
-        // Decode the data received from the MAVProxy
-        mavlink_gps_raw_int_t packet;
-        mavlink_msg_gps_raw_int_decode(msg, &packet);
-
-        // Store the coords in global storage variables
-        dartHubLat = packet.lat;
-        dartHubLon = packet.lon;
-        dartHubAlt = packet.alt;
-
-        break;
-    }
-
 
     case MAVLINK_MSG_ID_REQUEST_DATA_STREAM:
     {

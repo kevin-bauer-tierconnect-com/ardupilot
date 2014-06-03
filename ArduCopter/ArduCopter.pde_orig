@@ -179,11 +179,6 @@ static AP_Scheduler scheduler;
 static AP_Notify notify;
 
 
-// Added by kevin
-extern int dartHubLat;
-extern int dartHubLon;
-extern int dartHubAlt;
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // prototypes
@@ -1244,11 +1239,6 @@ static void update_GPS(void)
     bool report_gps_glitch;
 
     g_gps->update();
-
-    // Added by kevin
-    g_gps->latitude = dartHubLat;
-    g_gps->longitude = dartHubLon;
-    g_gps->altitude_cm = dartHubAlt;
 
     // logging and glitch protection run after every gps message
     if (g_gps->last_message_time_ms() != last_gps_reading) {
