@@ -137,6 +137,7 @@
 #include <AP_EPM.h>				// EPM cargo gripper stuff
 #endif
 
+
 // AP_HAL to Arduino compatibility layer
 #include "compat.h"
 // Configuration
@@ -1246,9 +1247,7 @@ static void update_GPS(void)
     g_gps->update();
 
     // Added by kevin
-    g_gps->latitude = dartHubLat;
-    g_gps->longitude = dartHubLon;
-    g_gps->altitude_cm = dartHubAlt;
+    update_GPS_DartHub();
 
     // logging and glitch protection run after every gps message
     if (g_gps->last_message_time_ms() != last_gps_reading) {
@@ -1315,6 +1314,61 @@ static void update_GPS(void)
     // check for loss of gps
     failsafe_gps_check();
 }
+
+
+
+
+// Added by kevin
+// Read the latest DartHub
+static void update_GPS_DartHub(void){
+
+    // Overwrite the GPS data
+    g_gps->latitude = dartHubLat;
+    g_gps->longitude = dartHubLon;
+    g_gps->altitude_cm = dartHubAlt;
+
+
+  
+    // These variables still might need to be updated.
+    
+    //g_gps->hdop = 0;
+    //g_gps->num_sats = 0;
+    //g_gps->time_week_ms = 0;
+    //g_gps->time_week = 0;
+    //g_gps->speed_3d_cm = 0;
+    //g_gps->ground_speed_cm = 0;
+    //g_gps->ground_course_cd = 0;
+    
+    // DartHub doesn't provide velocity.
+    //_have_raw_velocity = false;
+
+    // I couldn't find out yet how to update fix.
+    //fix = 0;		// < 0 if we have no fix, 2 for 2D fix, 3 for 3D fix
+    
+
+    // These variables cannot be updated (this way), so maybe they don't need to be updated.
+    /*
+
+    //#include "GPS.h" needed
+    g_gps->_last_gps_time = 0;	// the time we got the last GPS timestamp
+
+    g_gps->_new_position = 0;	// only used locally in AP_GPS_UBLOX.cpp
+    g_gps->next_fix = 0;	// only used locally in AP_GPS_UBLOX.cpp to set fix when updating coords
+    g_gps->_last_5hz_time = 0;	// only used locally in AP_GPS_UBLOX.cpp
+
+    g_gps->need_rate_update = 0;
+    g_gps->rate_update_step = 0;
+    g_gps->_last_5hz_time = 0;
+    g_gps->_fix_count = 0;
+    */
+}
+
+
+
+
+
+
+
 
 // set_yaw_mode - update yaw mode and initialise any variables required
 bool set_yaw_mode(uint8_t new_yaw_mode)
